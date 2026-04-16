@@ -6,8 +6,6 @@
 #include <algorithm>
 #include <list>
 
-using namespace std;
-
 enum Color { RED, BLACK };
 
 struct RBNode {
@@ -15,7 +13,7 @@ struct RBNode {
     Color color;
     RBNode *left, *right, *parent;
     RBNode(int k) : key(k), color(RED), left(nullptr), right(nullptr), parent(nullptr) {}
-    string toString() { return to_string(key) + (color == RED ? "(R)" : "(B)"); }
+    std::string toString() { return std::to_string(key) + (color == RED ? "(R)" : "(B)"); }
 };
 
 class RBTree {
