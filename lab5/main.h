@@ -6,11 +6,8 @@
 #define ADS_MAIN_H
 
 
-
 class main {
-
 };
-
 
 
 #endif //ADS_MAIN_H
