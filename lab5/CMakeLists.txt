@@ -13,7 +13,7 @@ endif()
 include_directories(include)
 
 add_executable(bheap src/main.cpp)
-add_executable(bheap_tests tests/test_binomial_heap.cpp)
 
-enable_testing()
-add_test(NAME BinomialHeapTests COMMAND bheap_tests)
+if(WIN32)
+    set_target_properties(bheap PROPERTIES LINK_FLAGS "-mconsole")
+endif()

@@ -4,11 +4,9 @@
 #include <string>
 #include <vector>
 
-
 template <typename T>
 class BinomialHeap {
 public:
-
     struct Node {
         T       key;
         int     degree;
@@ -21,11 +19,9 @@ public:
               parent(nullptr), child(nullptr), sibling(nullptr) {}
     };
 
-
     BinomialHeap() : head_(nullptr), size_(0) {}
 
     ~BinomialHeap() { destroyList(head_); }
-
 
     BinomialHeap(const BinomialHeap&)            = delete;
     BinomialHeap& operator=(const BinomialHeap&) = delete;
@@ -45,28 +41,23 @@ public:
         return *this;
     }
 
-
     bool empty() const { return head_ == nullptr; }
     int  size()  const { return size_; }
 
-
     void insert(const T& key) {
         BinomialHeap tmp;
-        tmp.head_  = new Node(key);
-        tmp.size_  = 1;
+        tmp.head_ = new Node(key);
+        tmp.size_ = 1;
         unionWith(tmp);
     }
-
 
     const T& minimum() const {
         if (!head_) throw std::underflow_error("Heap is empty");
         return findMin()->key;
     }
 
-
     T extractMin() {
         if (!head_) throw std::underflow_error("Heap is empty");
-
 
         Node* prevMin = nullptr;
         Node* minNode = nullptr;
@@ -84,46 +75,39 @@ public:
 
         T result = minNode->key;
 
-
         if (prevMin)
             prevMin->sibling = minNode->sibling;
         else
             head_ = minNode->sibling;
 
-
         BinomialHeap childHeap;
         Node* child = minNode->child;
         Node* reversedHead = nullptr;
         while (child) {
-            Node* next    = child->sibling;
+            Node* next     = child->sibling;
             child->parent  = nullptr;
             child->sibling = reversedHead;
             reversedHead   = child;
             child          = next;
         }
         childHeap.head_ = reversedHead;
-
         childHeap.size_ = 0;
 
         delete minNode;
         --size_;
-
 
         unionWith(childHeap);
 
         return result;
     }
 
-
     void unionWith(BinomialHeap& other) {
-
         head_ = mergeRootLists(head_, other.head_);
         size_ += other.size_;
         other.head_ = nullptr;
         other.size_ = 0;
 
         if (!head_) return;
-
 
         Node* prev = nullptr;
         Node* curr = head_;
@@ -140,7 +124,6 @@ public:
                     curr->sibling = next->sibling;
                     linkTrees(next, curr);
                 } else {
-
                     if (prev)
                         prev->sibling = next;
                     else
@@ -166,21 +149,22 @@ public:
             std::swap(curr->key, curr->parent->key);
             curr = curr->parent;
         }
+
         Node* prev = nullptr;
         Node* node = head_;
         while (node && node != curr) {
             prev = node;
             node = node->sibling;
         }
+
         if (prev) prev->sibling = curr->sibling;
         else      head_ = curr->sibling;
 
-        // Reverse curr's children into a child heap
         BinomialHeap childHeap;
         Node* child = curr->child;
         Node* reversedHead = nullptr;
         while (child) {
-            Node* nxt     = child->sibling;
+            Node* nxt      = child->sibling;
             child->parent  = nullptr;
             child->sibling = reversedHead;
             reversedHead   = child;
@@ -286,11 +270,10 @@ private:
 
     static void printTree(Node* node, const std::string& prefix, bool isRoot) {
         if (!node) return;
-        if (isRoot) {
+        if (isRoot)
             std::cout << prefix << node->key << "\n";
-        } else {
+        else
             std::cout << prefix << "+-- " << node->key << "\n";
-        }
         Node* child = node->child;
         while (child) {
             printTree(child, prefix + (isRoot ? "" : "|   "), false);

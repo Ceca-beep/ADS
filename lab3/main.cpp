@@ -89,7 +89,7 @@ void perform(RBTree* RB, int o) {
         break;
     case 13:
         std::cout << "Bye!" << std::endl;
-        exit(0);
+        break;
 
     // ── NEW: Problem 1 ────────────────────────────────────────────
     case 14:
